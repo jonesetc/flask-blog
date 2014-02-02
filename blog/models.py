@@ -1,0 +1,1 @@
+"""These are the models for the blog"""
