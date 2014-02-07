@@ -22,8 +22,6 @@ class Post(db.Model):
     :param str user_shortname: Shortname of the user who posted this
     :param User user: User who posted this
     """
-    __tablename__ = 'post'
-
     slug = db.Column(db.String, primary_key=True)
     date = db.Column(db.Date, default=date.today())
     title = db.Column(db.String)
@@ -32,9 +30,8 @@ class Post(db.Model):
     css_file = db.Column(db.String, default=None, nullable=True)
     js_file = db.Column(db.String, default=None, nullable=True)
     user_shortname = db.Column(db.String, db.ForeignKey('user.shortname'))
-    user = db.relationship('User', backref=db.backref('posts', lazy='dynamic'))
     tags = db.relationship('Tag', secondary=tags,
-        backref=db.backref('posts', lazy='dynamic'))
+        backref=db.backref('posts'))
 
     def __str__(self):
         return self.title
@@ -46,8 +43,6 @@ class Tag(db.Model):
     :param str slug: Slug of this tag (KEY)
     :param str name: Title of this tag
     """
-    __tablename__ = 'tag'
-
     slug = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
 
@@ -64,17 +59,21 @@ class User(db.Model):
     :param str about_md: Markdown version of user's about section
     :param str about_html: HTML version of user's about section (generated automatically from markdown)
     :param str css_file: Optional name of the custom css file
+    :param str js_file: Optional name of the custom js file
     :param str password_hash: Hash of this user (bcrypt & salt)
+    :param list posts: Posts by this user
+    :param list services: Services of this user
     """
-    __tablename__ = 'user'
-
     shortname = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
     url = db.Column(db.String)
     about_md = db.Column(db.Text)
     about_html = db.Column(db.Text)
     css_file = db.Column(db.String, default=None, nullable=True)
+    js_file = db.Column(db.String, default=None, nullable=True)
     password_hash = db.Column(db.String)
+    posts = db.relationship('Post', backref=db.backref('user'))
+    services = db.relationship('Service', backref=db.backref('user'))
 
     def __str__(self):
         return self.name
@@ -103,15 +102,12 @@ class Service(db.Model):
     :param str user_shortname: Shortname of this service's user
     :param User user: This service's user
     """
-    __tablename__ = 'service'
-
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String)
     icon_file = db.Column(db.String)
     alt_text = db.Column(db.String, default=None, nullable=True)
     css_class = db.Column(db.String, default=None, nullable=True)
     user_shortname = db.Column(db.String, db.ForeignKey('user.shortname'))
-    user = db.relationship('User', backref=db.backref('services', lazy='dynamic'))
 
     def __str__(self):
         return "{0} @ {1}".format(str(self.user), self.name)
