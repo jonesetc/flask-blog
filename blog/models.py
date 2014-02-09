@@ -1,7 +1,7 @@
 """These are the models for the blog"""
 from datetime import date
 
-from blog import db
+from blog import app, bcrypt, db, login
 
 tags = db.Table('tags',
     db.Column('tag_slug', db.String, db.ForeignKey('tag.slug')),
@@ -66,9 +66,9 @@ class User(db.Model):
     """
     shortname = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
-    url = db.Column(db.String)
-    about_md = db.Column(db.Text)
-    about_html = db.Column(db.Text)
+    url = db.Column(db.String, default=None, nullable=True)
+    about_md = db.Column(db.Text, default=None, nullable=True)
+    about_html = db.Column(db.Text, default=None, nullable=True)
     css_file = db.Column(db.String, default=None, nullable=True)
     js_file = db.Column(db.String, default=None, nullable=True)
     password_hash = db.Column(db.String)
@@ -89,6 +89,14 @@ class User(db.Model):
 
     def is_anonymous(self):
         return False
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password)
+
+    @login.user_loader
+    @staticmethod
+    def load_user(userid):
+        return User.query.filter_by(shortname=userid).first()
 
 class Service(db.Model):
     """
@@ -112,3 +120,14 @@ class Service(db.Model):
     def __str__(self):
         return "{0} @ {1}".format(str(self.user), self.name)
 
+def create_db_default_user():
+    # Create the user, be sure to create a new user and remove this one immediately
+    name = app.config.get('DEFAULT_NAME', 'admin')
+    password = app.config.get('DEFAULT_PASSWORD', 'admin')
+    password_hash = bcrypt.generate_password_hash(password)
+    default_user = User(name=name, shortname=name, password_hash=password_hash)
+
+    # Create the db and then add the user in
+    db.create_all()
+    db.session.add(default_user)
+    db.session.commit()

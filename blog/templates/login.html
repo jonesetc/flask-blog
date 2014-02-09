@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content%}
+    <form method="POST" action="/login/">
+        {% if form.errors %}
+            <ul>
+                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                    {% for error in field_errors %}
+                        <li>{{ form[field_name].label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {{ form.csrf_token }}
+        {{ form.shortname.label }} {{ form.shortname }}
+        {{ form.password.label }} {{ form.password }}
+        {{ form.remember.label }} {{ form.remember }}
+        <input type="submit">
+    </form>
+{% endblock %}
