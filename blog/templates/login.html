@@ -10,7 +10,7 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {{ form.csrf_token }}
         {% for field in form if field.widget.input_type != 'hidden' %}
           {{ field.label }}
           {{ field }}

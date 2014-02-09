@@ -1,7 +1,7 @@
-from flask_wtf import Form
-from wtforms import TextField, PasswordField, BooleanField, ValidationError
+from wtforms import Form, TextField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired
 
+from blog import app
 from blog.models import User, load_user
 
 def validate_login(form, field):
