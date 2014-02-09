@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% set title = 'Latest Posts' %}
+{% block content%}
+    <div class="latest-posts-wrap">
+        {% for post in latest_posts %}
+            {{ post }}
+        {% endfor %}
+    </div>
+{% endblock %}

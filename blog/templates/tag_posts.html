@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% set title = tag.name ~ ' posts' %}
+{% block content%}
+    <div class="post-list-wrap">
+        {% for post in tag_posts %}
+            {{ post }}
+        {% endfor %}
+    </div>
+{% endblock %}

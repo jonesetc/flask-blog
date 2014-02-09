@@ -1,8 +1,7 @@
 from wtforms import Form, TextField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired
 
-from blog import app
-from blog.models import User, load_user
+from blog.models import load_user
 
 def validate_login(form, field):
         user = load_user(form.shortname.data)

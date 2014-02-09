@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% set title = 'Login' %}
 {% block content%}
-    <form method="POST" action="/login/">
+    <form method="POST" action="{{ url_for('login_view') }}">
         {% if form.errors %}
             <ul>
                 {% for field_name, field_errors in form.errors|dictsort if field_errors %}

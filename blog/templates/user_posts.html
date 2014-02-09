@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% set title = user.name ~ ' posts' %}
+{% block content%}
+    <div class="post-list-wrap">
+        {% for post in user_posts %}
+            {{ post }}
+        {% endfor %}
+    </div>
+{% endblock %}

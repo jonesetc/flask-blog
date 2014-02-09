@@ -2,7 +2,7 @@
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.login import login_user, logout_user, login_required, current_user
 from markdown import markdown
-from flask import redirect, render_template, url_for, request
+from flask import redirect, render_template, url_for, request, abort
 
 from blog import app, db, admin, bcrypt
 from blog.models import User, Post, Tag, Service, load_user
@@ -10,23 +10,38 @@ from blog.forms import LoginForm
 
 @app.route('/')
 def index_view():
-    return "This will be an index"
+    latest_posts = Post.query.order_by(Post.date.desc()).limit(5)
+    return render_template('latest_posts.html', latest_posts=latest_posts)
 
 @app.route('/profile/<string:name>/')
 def profile_view(name):
-    return "This will be a profile for the user named " + name
+    user = load_user(name)
+    if user is None:
+        abort(404)
+    return render_template('profile.html', user=user)
 
 @app.route('/user/<string:name>/')
 def user_view(name):
-    return "This will be posts with the user named " + name
+    user = load_user(name)
+    if user is None:
+        abort(404)
+    user_posts = sorted(user.posts, key=lambda x: x.date)
+    return render_template('user_posts.html', user=user, user_posts=user_posts)
 
 @app.route('/post/<string:slug>/')
 def post_view(slug):
-    return "This will be a post with the slug " + slug
+    post = Post.query.filter_by(slug=slug).first()
+    if post is None:
+        abort(404)
+    return render_template('post.html', post=post)
 
 @app.route('/tag/<string:slug>/')
 def tag_view(slug):
-    return "This will be posts with the tag slug " + slug
+    tag = Tag.query.filter_by(slug=slug).first()
+    if tag is None:
+        abort(404)
+    tag_posts = sorted(tag.posts, key=lambda x: x.date)
+    return render_template('tag_posts.html', tag=tag, tag_posts=tag_posts)
 
 @app.route('/login/', methods=('GET', 'POST'))
 def login_view():
@@ -35,7 +50,6 @@ def login_view():
         user = load_user(form.data['shortname'])
         login_user(user)
         return redirect(url_for('index_view'))
-    print(form.data)
     return render_template('login.html', form=form)
 
 @app.route("/logout/")
@@ -43,6 +57,10 @@ def login_view():
 def logout_view():
     logout_user()
     return redirect(url_for('index_view'))
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('error.html', code=404), 404
 
 class UserView(ModelView):
     # Override displayed fields
