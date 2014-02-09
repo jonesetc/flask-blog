@@ -2,10 +2,10 @@ from flask_wtf import Form
 from wtforms import TextField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired
 
-from blog.models import User
+from blog.models import User, load_user
 
 def validate_login(form, field):
-        user = User.load_user(form.shortname.data)
+        user = load_user(form.shortname.data)
 
         if user is None:
             raise ValidationError('Invalid user')

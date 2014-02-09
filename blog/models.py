@@ -93,11 +93,6 @@ class User(db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
-    @login.user_loader
-    @staticmethod
-    def load_user(userid):
-        return User.query.filter_by(shortname=userid).first()
-
 class Service(db.Model):
     """
     A service for a user
@@ -131,3 +126,7 @@ def create_db_default_user():
     db.create_all()
     db.session.add(default_user)
     db.session.commit()
+
+@login.user_loader
+def load_user(userid):
+    return User.query.filter_by(shortname=userid).first()

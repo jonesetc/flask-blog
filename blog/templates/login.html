@@ -10,10 +10,11 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        {{ form.csrf_token }}
-        {{ form.shortname.label }} {{ form.shortname }}
-        {{ form.password.label }} {{ form.password }}
-        {{ form.remember.label }} {{ form.remember }}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          {{ field.label }}
+          {{ field }}
+        {% endfor %}
         <input type="submit">
     </form>
 {% endblock %}

@@ -4,8 +4,8 @@ from flask.ext.login import login_user, logout_user, login_required
 from markdown import markdown
 from flask import redirect, render_template, url_for, request
 
-from blog import app, db, bcrypt, login, admin
-from blog.models import User, Post, Tag, Service
+from blog import app, db, admin
+from blog.models import User, Post, Tag, Service, load_user
 from blog.forms import LoginForm
 
 @app.route('/')
@@ -32,10 +32,10 @@ def tag_view(slug):
 def login_view():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        # user = User(form.data.shortname)
-        # login_user(user)
-        return redirect("http://google.com")
-    print(form.errors)
+        user = load_user(form.data['shortname'])
+        login_user(user)
+        return redirect(url_for('index_view'))
+    print(form.data)
     return render_template('login.html', form=form)
 
 @app.route("/logout/")
