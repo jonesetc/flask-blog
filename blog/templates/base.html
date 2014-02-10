@@ -22,40 +22,12 @@
 
     </head>
     <body>
-        <div class="contain-to-grid sticky">
-            <nav class="top-bar" data-topbar>
-                <ul class="title-area">
-                    <li class="name">
-                        <h1><a href="{{ url_for('index_view') }}">Blog</a></h1>
-                    </li>
-                    <li class="toggle-topbar"><a href="#">Menu</a></li>
-                </ul>
-
-                <section class="top-bar-section">
-                    <!-- Right Nav Section -->
-                    <ul class="right">
-                        <li class="has-dropdown">
-                            <a href="#">Authors</a>
-                            <ul class="dropdown">
-                                {% for user in users() %}
-                                <li><a href="{{ url_for('profile_view', name=user.shortname) }}">{{ user.name }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        <li class="has-dropdown">
-                            <a href="#">Tags</a>
-                            <ul class="dropdown">
-                                {% for tag in tags() %}
-                                <li><a href="{{ url_for('tag_view', slug=tag.slug) }}">{{ tag.name }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
-                </section>
-            </nav>
-        </div>
+        {% include 'header.html' %}
         <div class="row">
-        {% block content %}{% endblock %}
+            {% include 'side_nav.html' %}
+            <div class="small-12 medium-12 large-8 columns">
+                {% block content %}{% endblock %}
+            </div>
         </div>
 
         <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>

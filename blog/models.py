@@ -136,3 +136,6 @@ def get_tags():
 
 def get_users():
     return User.query.all()
+
+def get_posts():
+    return Post.query.all()

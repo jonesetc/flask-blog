@@ -7,10 +7,10 @@ from markdown import markdown
 from flask import redirect, render_template, url_for, request, abort
 
 from blog import app, db, admin, bcrypt
-from blog.models import User, Post, Tag, Service, load_user, get_tags, get_users
+from blog.models import User, Post, Tag, Service, load_user, get_tags, get_users, get_posts
 from blog.forms import LoginForm
 
-render_template_with_models = partial(render_template, users=get_users, tags=get_tags)
+render_template_with_models = partial(render_template, users=get_users, tags=get_tags, posts=get_posts)
 
 @app.route('/')
 def index_view():

@@ -1,0 +1,27 @@
+{% set ordered_posts = posts()|sort(reverse=true, attribute='date') %}
+<div class="large-4 medium-3 hide-for-medium-down columns">
+
+    <dl class="accordion" data-accordion>
+        {% for year in ordered_posts|groupby('date.year')|reverse %}
+        <dd>
+        <a href="#p{{ year.grouper }}">{{ year.grouper }}</a>
+        <div id="p{{ year.grouper }}" class="content">
+            <dl class="tabs" data-tab>
+                {% for month in year.list|groupby('date.month')|reverse %}
+                    <dd><a href="#p{{ year.grouper ~ '-' ~ month.grouper }}">{{ month.grouper }}</a></dd>
+                {% endfor %}
+            </dl>
+            <div class="tabs-content">
+                {% for month in year.list|groupby('date.month')|reverse %}
+                {% for date in month.list %}
+                <div class="content" id="p{{ year.grouper ~ '-' ~ month.grouper }}">
+                    <a href="{{ url_for('post_view', slug=date.slug) }}">{{ date.title }}</a>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        </dd>
+        {% endfor %}
+    </dl>
+</div>
