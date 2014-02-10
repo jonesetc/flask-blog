@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% set title = tag.name ~ ' posts' %}
+{% set css_file = none %}
+{% set js_file = none %}
 {% block content%}
     <div class="post-list-wrap">
         {% for post in tag_posts %}

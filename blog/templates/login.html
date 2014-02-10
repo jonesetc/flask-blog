@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% set title = 'Login' %}
+{% set css_file = none %}
+{% set js_file = none %}
 {% block content%}
     <form method="POST" action="{{ url_for('login_view') }}">
         {% if form.errors %}

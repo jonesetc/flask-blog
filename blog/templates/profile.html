@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% set title = user.name %}
+{% set css_file = user.css_file %}
+{% set js_file = user.js_file %}
 {% block content%}
     <div class="profile-wrap">
         {{ user }}

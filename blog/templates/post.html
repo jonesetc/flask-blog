@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% set title = post.title %}
+{% set css_file = post.css_file %}
+{% set js_file = post.js_file %}
 {% block content%}
     <div class="post-wrap">
         {{ post }}
