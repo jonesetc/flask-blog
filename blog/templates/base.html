@@ -7,6 +7,7 @@
         <title>{{ title }}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
         {% if not css_file is none %}
             {% if not css_file == '' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ css_file) }}">
@@ -22,10 +23,11 @@
 
     </head>
     <body>
-        {% include 'header.html' %}
-        <div class="row">
+        {% include 'top_nav.html' %}
+        <br>
+        <div class="row wrap-body">
             {% include 'side_nav.html' %}
-            <div class="small-12 medium-12 large-8 columns">
+            <div class="small-12 medium-9 large-8 columns">
                 {% block content %}{% endblock %}
             </div>
         </div>

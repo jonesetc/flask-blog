@@ -1,16 +1,13 @@
 """This is the bulk of the views and controls for this flask blog"""
-from functools import partial
-
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.login import login_user, logout_user, login_required, current_user
 from markdown import markdown
-from flask import redirect, render_template, url_for, request, abort
+from flask import redirect, url_for, request, abort
 
 from blog import app, db, admin, bcrypt
-from blog.models import User, Post, Tag, Service, load_user, get_tags, get_users, get_posts
+from blog.models import User, Post, Tag, Service, load_user
 from blog.forms import LoginForm
-
-render_template_with_models = partial(render_template, users=get_users, tags=get_tags, posts=get_posts)
+from blog.utils import render_template_with_models
 
 @app.route('/')
 def index_view():
@@ -37,7 +34,9 @@ def post_view(slug):
     post = Post.query.filter_by(slug=slug).first()
     if post is None:
         abort(404)
-    return render_template_with_models('post.html', post=post)
+    user = User.query.filter_by(shortname=post.user_shortname).first()
+    services = Service.query.filter_by(user_shortname=user.shortname).all()
+    return render_template_with_models('post.html', post=post, user=user, services=services)
 
 @app.route('/tag/<string:slug>/')
 def tag_view(slug):

@@ -4,6 +4,14 @@
 {% set js_file = post.js_file %}
 {% block content%}
     <div class="post-wrap">
-        {{ post }}
+        {{ post.body_html | safe}}
+        <div class="author-wrap">
+            <p>Author: {{ user.name }}</p>
+            <div class="services-wrap">
+                {% for service in services %}
+                <img alt="{{ service.alt_text }}" src="{{ url_for('static', filename='img/' ~ service.icon_file) }}"></img>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

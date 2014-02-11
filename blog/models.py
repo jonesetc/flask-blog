@@ -130,12 +130,3 @@ def create_db_default_user():
 @login.user_loader
 def load_user(userid):
     return User.query.filter_by(shortname=userid).first()
-
-def get_tags():
-    return Tag.query.all()
-
-def get_users():
-    return User.query.all()
-
-def get_posts():
-    return Post.query.all()

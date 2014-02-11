@@ -1,5 +1,5 @@
 {% set ordered_posts = posts()|sort(reverse=true, attribute='date') %}
-<div class="large-4 medium-3 hide-for-medium-down columns">
+<div class="large-4 medium-3 hide-for-small columns">
 
     <dl class="accordion" data-accordion>
         {% for year in ordered_posts|groupby('date.year')|reverse %}
