@@ -16,3 +16,15 @@ This is a work in progress. It is a very simple blog built with flask. The end g
     - Switch users
     - Remove the default user
     - Now start creating posts, users, tags, and services
+
+## Notes
+
+- Feel free to use this blog structure any way that you would like
+- We have tried to keep things general when possible, but this isn't intended to be a base for any other blogs, so sometimes things are a bit hardcoded
+- Always glad to hear any comments of pull requests, even if we're not striving for perfection
+
+## Attributions
+
+- The blog as it stands relies upon [Foundation](http://foundation.zurb.com/) for some great css gridding and js utilities
+    - This means we're also relying upon [jQuery](http://jquery.com/)
+- By default we're using [Open Sans](http://www.google.com/fonts/specimen/Open+Sans)

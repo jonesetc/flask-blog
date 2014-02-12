@@ -1,3 +1,8 @@
 /*
 These are the general custom css rules. They will be applied to all pages on the blog.
 */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300);
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
