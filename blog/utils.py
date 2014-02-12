@@ -18,4 +18,4 @@ render_template_with_models = partial(render_template, users=get_users, tags=get
 
 def get_static_files(static_dir):
     dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', static_dir)
-    return [(f, f) for f in os.listdir(dir)]
+    return [(f, f) for f in os.listdir(dir)] + [('', '')]
