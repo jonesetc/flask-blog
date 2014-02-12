@@ -100,6 +100,7 @@ class Service(db.Model):
     :param int id: ID of this service (KEY)
     :param str name: Name of this service
     :param str icon_file: Icon file of this service
+    :param str url: URL of this user
     :param str alt_text: Optional alt-text for the icon
     :param str css_class: Optional css class of this icon
     :param str user_shortname: Shortname of this service's user
@@ -108,6 +109,7 @@ class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String)
     icon_file = db.Column(db.String)
+    url = db.Column(db.String)
     alt_text = db.Column(db.String, default=None, nullable=True)
     css_class = db.Column(db.String, default=None, nullable=True)
     user_shortname = db.Column(db.String, db.ForeignKey('user.shortname'))

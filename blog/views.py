@@ -3,11 +3,12 @@ from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.login import login_user, logout_user, login_required, current_user
 from markdown import markdown
 from flask import redirect, url_for, request, abort
+from wtforms import SelectField, BooleanField
 
 from blog import app, db, admin, bcrypt
 from blog.models import User, Post, Tag, Service, load_user
 from blog.forms import LoginForm
-from blog.utils import render_template_with_models
+from blog.utils import render_template_with_models, get_static_files
 
 @app.route('/')
 def index_view():
@@ -68,11 +69,24 @@ def not_found(error):
 class UserView(ModelView):
     # Override displayed fields
     column_display_pk = True
-    form_columns = ('shortname', 'name', 'url', 'about_md', 'about_html', 'css_file', 'js_file', 'password_hash')
+    form_columns = ('shortname', 'name', 'url', 'convert', 'about_md', 'about_html', 'css_file', 'js_file', 'password_hash')
     column_exclude_list = ('password_hash', 'about_md', 'about_html')
 
+    form_overrides = dict(js_file=SelectField, css_file=SelectField)
+    form_args = dict(
+        js_file=dict(
+            choices=get_static_files('js')
+        ),
+        css_file=dict(
+            choices=get_static_files('css')
+        ))
+
+    form_extra_fields = dict(
+        convert=BooleanField('Convert Markdown')
+    )
+
     def on_model_change(self, form, model, is_created):
-        if model.about_html:
+        if form.data['convert']:
             model.about_html = markdown(model.about_md, output_format='html5')
 
         if is_created:
@@ -84,11 +98,25 @@ class UserView(ModelView):
 class PostView(ModelView):
     # Override displayed fields
     column_display_pk = True
-    form_columns = ('slug', 'date', 'title', 'body_md', 'body_html', 'css_file', 'js_file', 'tags', 'user')
+    form_columns = ('slug', 'date', 'title', 'body_md', 'convert', 'body_html', 'css_file', 'js_file', 'tags', 'user',)
     column_list = ('slug', 'date', 'title', 'css_file', 'js_file', 'tags', 'user')
 
+    form_overrides = dict(js_file=SelectField, css_file=SelectField)
+    form_args = dict(
+        js_file=dict(
+            choices=get_static_files('js')
+        ),
+        css_file=dict(
+            choices=get_static_files('css')
+        ))
+
+    form_extra_fields = {
+        'convert': BooleanField('Convert Markdown')
+    }
+
     def on_model_change(self, form, model, is_created):
-        model.body_html = markdown(model.body_md, output_format='html5')
+        if form.data['convert']:
+            model.body_html = markdown(model.body_md, output_format='html5')
 
     def is_accessible(self):
         return current_user.is_authenticated()
@@ -104,7 +132,13 @@ class TagView(ModelView):
 class ServiceView(ModelView):
     # Override displayed fields
     column_display_pk = True
-    form_columns = ('name', 'icon_file', 'alt_text', 'css_class', 'user')
+    form_columns = ('name', 'icon_file', 'alt_text', 'css_class', 'user', 'url')
+
+    form_overrides = dict(icon_file=SelectField)
+    form_args = dict(
+        icon_file=dict(
+            choices=get_static_files('img')
+        ))
 
     def is_accessible(self):
         return current_user.is_authenticated()
