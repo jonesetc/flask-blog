@@ -9,7 +9,9 @@
             <p>Author: {{ user.name }}</p>
             <div class="services-wrap">
                 {% for service in services %}
-                <img alt="{{ service.alt_text }}" src="{{ url_for('static', filename='img/' ~ service.icon_file) }}"></img>
+                <a href="{{ service.url }}">
+                <img alt="{{ service.alt_text }}" src="{{ url_for('static', filename='img/' ~ service.icon_file) }}">
+                </a>
                 {% endfor %}
             </div>
         </div>

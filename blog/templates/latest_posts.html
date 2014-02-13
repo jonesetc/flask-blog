@@ -5,7 +5,12 @@
 {% block content%}
     <div class="latest-posts-wrap">
         {% for post in latest_posts %}
-            {{ post }}
+            <article class="latest-post">
+                <a href="{{ url_for('post_view', slug=post.slug) }}"><h3>{{ post.title }}</h3></a>
+                <h5>Author: {{ post.user.name }}</h5>
+                <h5>Date: {{ post.date }}</h5>
+            </article>
+            <hr>
         {% endfor %}
     </div>
 {% endblock %}

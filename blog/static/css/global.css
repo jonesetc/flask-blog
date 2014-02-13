@@ -1,8 +1,35 @@
 /*
 These are the general custom css rules. They will be applied to all pages on the blog.
 */
+
+/*
+Import and set Open Sans as default font-family
+*/
 @import url(http://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300);
 
 * {
     font-family: 'Open Sans', sans-serif;
+}
+
+/*
+Set the default colors for links and hovering links
+*/
+a {
+    color: black;
+}
+
+a:hover {
+    color: #737373;
+}
+
+a:hover * {
+    color: #737373;
+}
+
+/*
+Remove the grey background on the side nav links, even though this is imported after foundation
+it still seems to need !important, will have to figure that out
+*/
+.tabs-content div > a {
+    background: none !important;
 }
