@@ -1,10 +1,10 @@
 from wtforms import Form, TextField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired
 
-from blog.models import load_user
+from blog.utils import get_user
 
 def validate_login(form, field):
-        user = load_user(form.shortname.data)
+        user = get_user(form.shortname.data)
 
         if user is None:
             raise ValidationError('Invalid user')

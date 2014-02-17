@@ -1,7 +1,7 @@
 """These are the models for the blog"""
 from datetime import date
 
-from blog import app, bcrypt, db, login
+from blog import app, bcrypt, db
 
 tags = db.Table('tags',
     db.Column('tag_slug', db.String, db.ForeignKey('tag.slug')),
@@ -128,7 +128,3 @@ def create_db_default_user():
     db.create_all()
     db.session.add(default_user)
     db.session.commit()
-
-@login.user_loader
-def load_user(userid):
-    return User.query.filter_by(shortname=userid).first()

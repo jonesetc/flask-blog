@@ -6,25 +6,25 @@ from flask import redirect, url_for, request, abort
 from wtforms import SelectField, BooleanField
 
 from blog import app, db, admin, bcrypt
-from blog.models import User, Post, Tag, Service, load_user
+from blog.models import User, Post, Tag, Service
 from blog.forms import LoginForm
-from blog.utils import render_template_with_models, get_static_files
+from blog.utils import render_template_with_models, get_static_files, get_latest_posts, get_user, get_post
 
 @app.route('/')
 def index_view():
-    latest_posts = Post.query.order_by(Post.date.desc()).limit(5)
+    latest_posts = get_latest_posts(5)
     return render_template_with_models('latest_posts.html', latest_posts=latest_posts)
 
 @app.route('/profile/<string:name>/')
 def profile_view(name):
-    user = load_user(name)
+    user = get_user(name)
     if user is None:
         abort(404)
     return render_template_with_models('profile.html', user=user)
 
 @app.route('/user/<string:name>/')
 def user_view(name):
-    user = load_user(name)
+    user = get_user(name)
     if user is None:
         abort(404)
     user_posts = sorted(user.posts, key=lambda x: x.date)
@@ -32,11 +32,11 @@ def user_view(name):
 
 @app.route('/post/<string:slug>/')
 def post_view(slug):
-    post = Post.query.filter_by(slug=slug).first()
+    post = get_post(slug)
     if post is None:
         abort(404)
-    user = User.query.filter_by(shortname=post.user_shortname).first()
-    services = Service.query.filter_by(user_shortname=user.shortname).all()
+    user = get_user(post.user_shortname)
+    services = user.services
     return render_template_with_models('post.html', post=post, user=user, services=services)
 
 @app.route('/tag/<string:slug>/')
@@ -51,7 +51,7 @@ def tag_view(slug):
 def login_view():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
-        user = load_user(form.data['shortname'])
+        user = get_user(form.data['shortname'])
         login_user(user)
         return redirect(url_for('index_view'))
     return render_template_with_models('login.html', form=form)
