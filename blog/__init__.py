@@ -1,4 +1,4 @@
-"""This is a blog"""
+"""This is where we initialize all of the packages we will use and create the app object"""
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.bcrypt import Bcrypt
@@ -13,4 +13,4 @@ bcrypt = Bcrypt(app)
 login = LoginManager(app)
 admin = Admin(app)
 
-from blog import views, models
+from blog import views
