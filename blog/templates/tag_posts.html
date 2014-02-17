@@ -4,8 +4,15 @@
 {% set js_file = none %}
 {% block content%}
     <div class="post-list-wrap">
+        <h2>Posts about {{ tag.name }}</h2>
+        <hr>
         {% for post in tag_posts %}
-            {{ post }}
+            <article class="tag-post">
+                <a href="{{ url_for('post_view', slug=post.slug) }}"><h3>{{ post.title }}</h3></a>
+                <h5>Author: {{ post.user.name }}</h5>
+                <h5>Date: {{ post.date }}</h5>
+            </article>
+            <hr>
         {% endfor %}
     </div>
 {% endblock %}

@@ -4,6 +4,8 @@
 {% set js_file = none %}
 {% block content%}
     <div class="latest-posts-wrap">
+        <h2>Latest Posts</h2>
+        <hr>
         {% for post in latest_posts %}
             <article class="latest-post">
                 <a href="{{ url_for('post_view', slug=post.slug) }}"><h3>{{ post.title }}</h3></a>

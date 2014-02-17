@@ -33,3 +33,15 @@ it still seems to need !important, will have to figure that out
 .tabs-content div > a {
     background: none !important;
 }
+
+
+/*
+Override some font-sizes for the top bar
+*/
+.top-bar .name h1 {
+    font-size: 1.5rem;
+}
+
+.top-bar-section ul li > a {
+    font-size: 1rem;
+}
