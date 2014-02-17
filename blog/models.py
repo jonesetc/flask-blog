@@ -17,6 +17,7 @@ class Post(db.Model):
     :key slug: Slug of this post (KEY)
     :key date: Date of this post
     :key title: Title of this post
+    :key lead: The first two sentences of the post for display on selection pages
     :key body_md: Markdown version of this post
     :key body_html: HTML version of this post (generated automatically from markdown)
     :key css_file: Optional name of the custom css file (optional)
@@ -28,6 +29,7 @@ class Post(db.Model):
     slug = db.Column(db.String, primary_key=True)
     date = db.Column(db.Date, default=date.today())
     title = db.Column(db.String)
+    lead = db.Column(db.Text)
     body_md = db.Column(db.Text)
     body_html = db.Column(db.Text)
     css_file = db.Column(db.String, default=None, nullable=True)
@@ -150,7 +152,6 @@ class Service(db.Model):
     :key name: Name of this service
     :key icon_file: Icon file of this service
     :key url: URL of this user
-    :key alt_text: Optional alt-text for the icon (Optional)
     :key css_class: Optional css class of this icon (Optional)
     :key user_shortname: Shortname of this service's user
     :key user: This service's user
@@ -159,7 +160,6 @@ class Service(db.Model):
     name = db.Column(db.String)
     icon_file = db.Column(db.String)
     url = db.Column(db.String)
-    alt_text = db.Column(db.String, default=None, nullable=True)
     css_class = db.Column(db.String, default=None, nullable=True)
     user_shortname = db.Column(db.String, db.ForeignKey('user.shortname'))
 
@@ -178,7 +178,7 @@ def create_db_default_user():
     """
 
     # Create the user, be sure to create a new user and remove this one immediately
-    name = app.config.get('DEFAULT_NAME', 'admin')
+    name = app.config.get('DEFAULT_USER', 'admin')
     password = app.config.get('DEFAULT_PASSWORD', 'admin')
     password_hash = bcrypt.generate_password_hash(password)
     default_user = User(name=name, shortname=name, password_hash=password_hash)

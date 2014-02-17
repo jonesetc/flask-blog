@@ -157,7 +157,7 @@ class UserView(ModelView):
 class PostView(ModelView):
     # Override displayed fields
     column_display_pk = True
-    form_columns = ('slug', 'date', 'title', 'body_md', 'convert', 'body_html', 'css_file', 'js_file', 'tags', 'user')
+    form_columns = ('slug', 'date', 'title', 'lead', 'body_md', 'convert', 'body_html', 'css_file', 'js_file', 'tags', 'user')
     column_list = ('slug', 'date', 'title', 'css_file', 'js_file', 'tags', 'user')
 
     # Configure select fields so they show appropriate files
@@ -212,7 +212,7 @@ class TagView(ModelView):
 class ServiceView(ModelView):
     # Override displayed fields
     column_display_pk = True
-    form_columns = ('name', 'icon_file', 'alt_text', 'css_class', 'user', 'url')
+    form_columns = ('name', 'icon_file', 'css_class', 'user', 'url')
 
     # Configure select fields so they show appropriate files
     form_overrides = dict(icon_file=SelectField)

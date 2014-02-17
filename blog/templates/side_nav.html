@@ -8,7 +8,7 @@
         <div id="p{{ year.grouper }}" class="content">
             <dl class="tabs" data-tab>
                 {% for month in year.list|groupby('date.month')|reverse %}
-                    <dd><a href="#p{{ year.grouper ~ '-' ~ month.grouper }}">{{ month.grouper }}</a></dd>
+                    <dd><a href="#p{{ year.grouper ~ '-' ~ month.grouper }}">{{ "%02d" % month.grouper }}</a></dd>
                 {% endfor %}
             </dl>
             <div class="tabs-content">

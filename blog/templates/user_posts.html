@@ -4,12 +4,16 @@
 {% set js_file = none %}
 {% block content%}
     <div class="post-list-wrap">
-        <h2>Posts by {{ user.name }}</h2>
+        <h2>{{ user.name }}</h2>
         <hr>
         {% for post in user_posts %}
             <article class="user-post">
                 <a href="{{ url_for('post_view', slug=post.slug) }}"><h3>{{ post.title }}</h3></a>
-                <h5>Author: {{ post.user.name }}</h5>
+                <h4>{{ post.lead }}</h4>
+                <h5>Tags:
+                {% for tag in post.tags %}
+                    <a href="{{ url_for('tag_view', slug=tag.slug) }}">{{ tag.name }}</a>
+                {% endfor %}
                 <h5>Date: {{ post.date }}</h5>
             </article>
             <hr>

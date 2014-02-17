@@ -4,12 +4,13 @@
 {% set js_file = user.js_file %}
 {% block content%}
     <div class="profile-wrap">
+        <h2>{{ user.name }}</h2>
         {{ user.about_html | safe }}
-        <a href="{{ url_for('user_view', name=user.shortname) }}"><h5>Posts by {{ user.name }}</h5></a>
+        <a href="{{ url_for('user_view', name=user.shortname) }}"><h5>Posts</h5></a>
         <div class="services-wrap">
             {% for service in user.services %}
             <a href="{{ service.url }}">
-            <img alt="{{ service.alt_text }}" src="{{ url_for('static', filename='img/' ~ service.icon_file) }}">
+            <img alt="{{ service.name }}" src="{{ url_for('static', filename='img/' ~ service.icon_file) }}">
             </a>
             {% endfor %}
         </div>

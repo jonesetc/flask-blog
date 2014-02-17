@@ -3,17 +3,18 @@
 {% set css_file = post.css_file %}
 {% set js_file = post.js_file %}
 {% block content%}
-    <div class="post-wrap">
+    <article class="post-wrap">
+        <h2>{{ post.title }}</h2>
         {{ post.body_html | safe}}
         <div class="author-wrap">
             <p>Author: <a href="{{ url_for('profile_view', name=user.shortname) }}">{{ user.name }}</a></p>
             <div class="services-wrap">
                 {% for service in services %}
                 <a href="{{ service.url }}">
-                <img alt="{{ service.alt_text }}" src="{{ url_for('static', filename='img/' ~ service.icon_file) }}">
+                <img alt="{{ service.name }}" src="{{ url_for('static', filename='img/' ~ service.icon_file) }}">
                 </a>
                 {% endfor %}
             </div>
         </div>
-    </div>
+    </article>
 {% endblock %}
