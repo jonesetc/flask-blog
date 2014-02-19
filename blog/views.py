@@ -20,6 +20,14 @@ def index_view():
     return render_template_with_models('latest_posts.html', latest_posts=latest_posts)
 
 
+@app.route('/about/')
+def about_view():
+    """
+    Renders an about page with information about the blog
+    """
+    return render_template_with_models('about.html')
+
+
 @app.route('/profile/<string:name>/')
 def profile_view(name):
     """
@@ -38,7 +46,7 @@ def user_view(name):
     """
     Render a page with a listing of all of a user's posts
 
-    :param name:  shortname to look up the user
+    :param name: shortname to look up the user
     """
     user = get_user(name)
     if user is None:

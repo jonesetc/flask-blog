@@ -4,7 +4,7 @@ from functools import partial
 
 from flask import render_template
 
-from blog import login
+from blog import app, login
 from blog.models import Tag, User, Post
 
 
@@ -34,8 +34,12 @@ def get_all_posts():
     """
     return Post.query.all()
 
+# get the blog name for the templates
+blog_name = app.config.get('BLOG_NAME', 'flask-blog')
+
 # Create a partially applied version of render_template. This way all templates will have info for navigation
-render_template_with_models = partial(render_template, users=get_all_users, tags=get_all_tags, posts=get_all_posts)
+render_template_with_models = partial(render_template, blog_name=blog_name, users=get_all_users, tags=get_all_tags,
+                                      posts=get_all_posts)
 
 
 def get_static_files(static_dir):
