@@ -11,6 +11,6 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login = LoginManager(app)
-admin = Admin(app)
+admin = Admin(app, name=app.config.get('BLOG_NAME', 'blog'))
 
 from blog import views

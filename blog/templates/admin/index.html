@@ -1,0 +1,19 @@
+{% extends 'admin/master.html' %}
+{% block head_css %}
+    {{ super() }}
+    <style>
+        #centered {
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+    <div id="centered">
+        <p>Can't see anything?</p>
+
+        <p>Maybe you should <a href="{{ url_for('login_view') }}">login</a></p>
+    </div>
+{% endblock %}

@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
-<html class="no-js" lang="en" >
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ blog_name ~ ' - ' ~ title }}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-        {% if not css_file is none %}
-            {% if not css_file == '' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ css_file) }}">
-            {% endif %}
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ blog_name ~ ' - ' ~ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    {% if not css_file is none %}
+        {% if not css_file == '' %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ css_file) }}">
         {% endif %}
+    {% endif %}
 
-        <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
-        {% if not js_file is none %}
-            {% if not js_file == '' %}
-        <script src="{{ url_for('static', filename='js/' ~ js_file) }}"></script>
-            {% endif %}
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+    {% if not js_file is none %}
+        {% if not js_file == '' %}
+            <script src="{{ url_for('static', filename='js/' ~ js_file) }}"></script>
         {% endif %}
+    {% endif %}
 
-    </head>
-    <body>
-        {% include 'top_nav.html' %}
-        <br>
-        <div class="row wrap-body">
-            {% include 'side_nav.html' %}
-            <div class="small-12 medium-9 large-8 columns">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
+</head>
+<body>
+{% include 'top_nav.html' %}
+<br>
 
-        <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
-        <script>
-            $(document).foundation();
-        </script>
-    </body>
+<div class="row wrap-body">
+    {% include 'side_nav.html' %}
+    <div class="small-12 medium-9 large-8 columns">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
+<script>
+    $(document).foundation();
+</script>
+</body>
 </html>

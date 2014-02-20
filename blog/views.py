@@ -93,7 +93,7 @@ def login_view():
     if request.method == 'POST' and form.validate():
         user = get_user(form.data['shortname'])
         login_user(user)
-        return redirect(url_for('index_view'))
+        return redirect(url_for('admin.index'))
     return render_template_with_models('login.html', form=form)
 
 
@@ -114,7 +114,8 @@ def not_found(error):
 
     :param error: error information
     """
-    return render_template_with_models('error.html', code=404), 404
+    return render_template_with_models('error.html', code=404,
+                                       email=app.config.get('ADMIN_EMAIL', 'admin@example.com')), 404
 
 
 class UserView(ModelView):
@@ -165,7 +166,8 @@ class UserView(ModelView):
 class PostView(ModelView):
     # Override displayed fields
     column_display_pk = True
-    form_columns = ('slug', 'date', 'title', 'lead', 'body_md', 'convert', 'body_html', 'css_file', 'js_file', 'tags', 'user')
+    form_columns = (
+        'slug', 'date', 'title', 'lead', 'body_md', 'convert', 'body_html', 'css_file', 'js_file', 'tags', 'user')
     column_list = ('slug', 'date', 'title', 'css_file', 'js_file', 'tags', 'user')
 
     # Configure select fields so they show appropriate files

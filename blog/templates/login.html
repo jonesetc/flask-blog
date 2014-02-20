@@ -2,7 +2,7 @@
 {% set title = 'Login' %}
 {% set css_file = none %}
 {% set js_file = none %}
-{% block content%}
+{% block content %}
     <form method="POST" action="{{ url_for('login_view') }}">
         {% if form.errors %}
             <ul>
@@ -15,8 +15,8 @@
         {% endif %}
         {{ form.csrf_token }}
         {% for field in form if field.widget.input_type != 'hidden' %}
-          {{ field.label }}
-          {{ field }}
+            {{ field.label }}
+            {{ field }}
         {% endfor %}
         <br>
         <input type="submit">

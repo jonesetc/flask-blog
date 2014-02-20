@@ -2,10 +2,13 @@
 {% set title = 'Oh no ' ~ 404 %}
 {% set css_file = none %}
 {% set js_file = none %}
-{% block content%}
+{% block content %}
     <div class="error-wrap">
         <h2>404</h2>
+
         <p>So, something went wrong. Most likely you requested a page you shouldn't have. Try not to do that.</p>
-        <p>If this was our fault (you clicked a bad link on the site), let us know <a href="mailto:admin@example.com">here</a></p>
+
+        <p>If this was our fault (you clicked a bad link on the site), let us know <a href="mailto:{{ email }}">here</a>
+        </p>
     </div>
 {% endblock %}
