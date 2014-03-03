@@ -4,8 +4,22 @@
 {% set js_file = none %}
 {% block content %}
     <div class="about-wrap">
-        <h2>BBQ and a Blog</h2>
+        <h2>{{ blog_name }}</h2>
+        {% for user in users() %}
+            <article class="{{ user.shortname }}-wrap">
+                <a href="{{ url_for('user_view', name=user.name) }}"><h3>{{ user.name }}</h3></a>
+                {{ user.about_html | safe }}
 
-        <p>Here goes the information about all of us and about this blog.</p>
+                <div class="services-wrap">
+                    {% for service in user.services %}
+                        <a href="{{ service.url }}">
+                            <img alt="{{ service.name }}"
+                                 src="{{ url_for('static', filename='img/' ~ service.icon_file) }}">
+                        </a>
+                    {% endfor %}
+                </div>
+            </article>
+            <hr>
+        {% endfor %}
     </div>
 {% endblock %}

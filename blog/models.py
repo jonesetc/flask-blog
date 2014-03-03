@@ -77,8 +77,6 @@ class User(db.Model):
     :key url: URL of this user (optional)
     :key about_md: Markdown version of user's about section (optional)
     :key about_html: HTML version of user's about section (optional)
-    :key css_file: Optional name of the custom css file (optional)
-    :key js_file: Optional name of the custom js file (optional)
     :key password_hash: Hash of this user
     :key posts: Posts by this user
     :key services: Services of this user
@@ -88,8 +86,6 @@ class User(db.Model):
     url = db.Column(db.String, default=None, nullable=True)
     about_md = db.Column(db.Text, default=None, nullable=True)
     about_html = db.Column(db.Text, default=None, nullable=True)
-    css_file = db.Column(db.String, default=None, nullable=True)
-    js_file = db.Column(db.String, default=None, nullable=True)
     password_hash = db.Column(db.String)
     posts = db.relationship('Post', backref=db.backref('user'))
     services = db.relationship('Service', backref=db.backref('user'))

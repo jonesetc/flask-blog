@@ -28,19 +28,6 @@ def about_view():
     return render_template_with_models('about.html')
 
 
-@app.route('/profile/<string:name>/')
-def profile_view(name):
-    """
-    Renders a profile page for a user
-
-    :param name: shortname to look up the user
-    """
-    user = get_user(name)
-    if user is None:
-        abort(404)
-    return render_template_with_models('profile.html', user=user)
-
-
 @app.route('/user/<string:name>/')
 def user_view(name):
     """
@@ -122,7 +109,7 @@ class UserView(ModelView):
     # Override displayed fields
     column_display_pk = True
     form_columns = (
-        'shortname', 'name', 'url', 'convert', 'about_md', 'about_html', 'css_file', 'js_file', 'password_hash')
+        'shortname', 'name', 'url', 'convert', 'about_md', 'about_html', 'hash', 'password_hash')
     column_exclude_list = ('password_hash', 'about_md', 'about_html')
 
     # Configure select fields so they show appropriate files
@@ -136,8 +123,10 @@ class UserView(ModelView):
         ))
 
     # Add in a boolean to check if the markdown should be converted or left alone
+    # Also boolean to indicate a password change for rehashing
     form_extra_fields = dict(
-        convert=BooleanField('Convert Markdown')
+        convert=BooleanField('Convert Markdown'),
+        hash = BooleanField('Changing Password')
     )
 
     def on_model_change(self, form, model, is_created):
@@ -151,7 +140,7 @@ class UserView(ModelView):
         if form.data['convert']:
             model.about_html = markdown(model.about_md, output_format='html5')
 
-        if is_created:
+        if is_created or form.data['hash']:
             model.password_hash = bcrypt.generate_password_hash(model.password_hash)
 
     def is_accessible(self):

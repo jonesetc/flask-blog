@@ -17,7 +17,7 @@
                     <a href="#">Authors</a>
                     <ul class="dropdown">
                         {% for user in users() %}
-                            <li><a href="{{ url_for('profile_view', name=user.shortname) }}">{{ user.name }}</a></li>
+                            <li><a href="{{ url_for('user_view', name=user.shortname) }}">{{ user.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>

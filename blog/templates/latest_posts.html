@@ -15,7 +15,7 @@
                         <a href="{{ url_for('tag_view', slug=tag.slug) }}">{{ tag.name }}</a>
                     {% endfor %}
                 </h5>
-                <h5>Author: <a href="{{ url_for('profile_view', name=post.user.name) }}">{{ post.user.name }}</a></h5>
+                <h5>Author: <a href="{{ url_for('user_view', name=post.user.name) }}">{{ post.user.name }}</a></h5>
                 <h5>Date: {{ post.date }}</h5>
             </article>
             <hr>
